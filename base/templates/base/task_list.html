@@ -1,0 +1,35 @@
+{% extends 'base/main.html' %}
+{% block content %}
+
+<div id="myDIV" class="header">
+    <h2>My To Do List</h2>
+    <form method="POST" action="{% url 'task-create' %}" >
+        {% csrf_token %}
+            <input type="submit" value="Add Task" />
+          </form> 
+  </div>
+
+
+<table>
+    <tr>
+        <h3>Tasks:</h3>
+        <th></th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+        <td>{{task.title}}</td>
+        <td><form method="GET" action="{% url 'task-update' task.id %}" >
+            {% csrf_token %}
+                <input type="submit" value="Update" />
+              </form></td>
+        <td><form method="GET" action="{% url 'task-delete' task.id %}" >
+            {% csrf_token %}
+                <input type="submit" value="Delete" />
+              </form></td>
+    </tr>
+    {% empty %}
+    <h3>No tasks</h3>
+</table>
+    {% endfor %}
+
+{% endblock content %}
